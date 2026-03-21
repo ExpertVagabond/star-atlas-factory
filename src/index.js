@@ -80,6 +80,35 @@ export function createRateLimiter(opts) {
 }
 
 // =============================================================================
+// Secure Entry Handlers — validators wired into public API surface
+// =============================================================================
+
+/** Create a marketplace order with validated inputs */
+export function createValidatedOrder(orderParams) {
+  try {
+    validateInput(orderParams, (p) => p && typeof p === 'object', 'orderParams');
+    if (orderParams.publicKey) validatePublicKey(orderParams.publicKey);
+    if (orderParams.mint) validatePublicKey(orderParams.mint);
+    if (orderParams.label) sanitizeString(orderParams.label);
+    return orderParams;
+  } catch (error) {
+    throw new SecurityError(sanitizeError(error).message);
+  }
+}
+
+/** Validate staking operation inputs */
+export function validateStakingInput(stakingParams) {
+  try {
+    validateInput(stakingParams, (p) => p && typeof p === 'object', 'stakingParams');
+    if (stakingParams.stakeAccount) validatePublicKey(stakingParams.stakeAccount);
+    if (stakingParams.owner) validatePublicKey(stakingParams.owner);
+    return stakingParams;
+  } catch (error) {
+    throw new SecurityError(sanitizeError(error).message);
+  }
+}
+
+// =============================================================================
 // Module Exports
 // =============================================================================
 
