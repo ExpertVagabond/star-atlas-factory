@@ -155,7 +155,8 @@ export class GmOrderbookService {
         }
       }
     } catch (error) {
-      console.log('There was an error refreshing all marketplace data', error);
+      const msg = error instanceof Error ? error.message.slice(0, 200) : 'Unknown error';
+      console.log('There was an error refreshing all marketplace data:', msg);
     }
   }
 
@@ -178,7 +179,8 @@ export class GmOrderbookService {
         this.addOrderToCache(order);
       }
     } catch (error) {
-      console.log(error);
+      const msg = error instanceof Error ? error.message.slice(0, 200) : 'Unknown error';
+      console.log('Error loading initial orders:', msg);
     }
 
     return this.orderCacheService.getAllOrdersCache().size;

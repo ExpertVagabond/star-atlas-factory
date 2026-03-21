@@ -19,7 +19,8 @@ export async function sendAndConfirmTransaction(
       },
     );
   } catch (e) {
-    console.log(e);
+    const msg = e instanceof Error ? e.message.slice(0, 200) : 'Transaction failed';
+    console.log('Transaction error:', msg);
   }
   return signature;
 }
