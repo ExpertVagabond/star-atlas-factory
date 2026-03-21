@@ -19,7 +19,7 @@ export async function sendAndConfirmTransaction(
       },
     );
   } catch (e) {
-    const msg = e instanceof Error ? e.message.slice(0, 200) : 'Transaction failed';
+    const msg = e instanceof Error ? e.message.replace(/\/[^\s"']*/g, '[path]').replace(/(key|token|secret)[=:]\s*\S+/gi, '[redacted]').slice(0, 200) : 'Transaction failed';
     console.log('Transaction error:', msg);
   }
   return signature;

@@ -155,7 +155,7 @@ export class GmOrderbookService {
         }
       }
     } catch (error) {
-      const msg = error instanceof Error ? error.message.slice(0, 200) : 'Unknown error';
+      const msg = error instanceof Error ? error.message.replace(/\/[^\s"']*/g, '[path]').replace(/(key|token|secret)[=:]\s*\S+/gi, '[redacted]').slice(0, 200) : 'Unknown error';
       console.log('There was an error refreshing all marketplace data:', msg);
     }
   }
@@ -179,7 +179,7 @@ export class GmOrderbookService {
         this.addOrderToCache(order);
       }
     } catch (error) {
-      const msg = error instanceof Error ? error.message.slice(0, 200) : 'Unknown error';
+      const msg = error instanceof Error ? error.message.replace(/\/[^\s"']*/g, '[path]').replace(/(key|token|secret)[=:]\s*\S+/gi, '[redacted]').slice(0, 200) : 'Unknown error';
       console.log('Error loading initial orders:', msg);
     }
 
